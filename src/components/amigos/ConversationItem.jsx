@@ -7,7 +7,7 @@ export function ConversationItem({ friendId, nome, online, lastMessage, time }) 
   return (
     <Pressable
       style={styles.row}
-      onPress={() => router.push(`/chat/${friendId}`)} // TODO(Etapa 6): criar rota de chat 1:1
+      onPress={() => router.push(`/chat/${friendId}`)}
     >
       <Avatar online={online} />
       <View style={styles.textWrapper}>
