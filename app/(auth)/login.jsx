@@ -27,7 +27,7 @@ export default function LoginScreen() {
     setLoading(true);
     try {
       await login(form);
-      router.replace('/'); // TODO: substituir pela rota da tela inicial (Etapa 2)
+      router.replace('/(tabs)'); 
     } catch (e) {
       setFormError(e instanceof Error ? e.message : 'Erro ao entrar');
     } finally {

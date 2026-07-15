@@ -4,9 +4,13 @@ export const colors = {
   gradientEnd: '#3E7CA6',
   border: 'rgba(255,255,255,0.25)',
   inputBg: 'rgba(255,255,255,0.04)',
+  cardBg: 'rgba(255,255,255,0.07)',
   text: '#FFFFFF',
+  textMuted: '#9FB3C8',
   placeholder: '#9FB3C8',
   accent: '#D4FF3F',
   accentText: '#0A1930',
   error: '#FF6B6B',
+  live: '#FF4D4D',
+  online: '#3DDC84',
 };
