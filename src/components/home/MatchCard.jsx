@@ -8,14 +8,15 @@ const STATUS_LABEL = {
   finalizada: 'Finalizada',
 };
 
-export function MatchCard({ match }) {
+export function MatchCard({ match, bare = false }) {
   const { id, competition, group, status, date, time, minute, teamA, teamB } = match;
   const showScore = status !== 'agendada';
 
   return (
     <Pressable
-      style={styles.card}
-      onPress={() => router.push(`/partida/${id}`)} // TODO(Etapa 5): criar rota de detalhes da partida
+      style={bare ? styles.cardBare : styles.card}
+      onPress={() => router.push(`/partida/${id}`)}
+      disabled={bare}
     >
       <Text style={styles.competition}>{competition} | {group}</Text>
 
@@ -54,6 +55,7 @@ export function MatchCard({ match }) {
 
 const styles = StyleSheet.create({
   card: { backgroundColor: colors.cardBg, borderRadius: 16, padding: 16 },
+  cardBare: { paddingHorizontal: 4, paddingTop: 4, paddingBottom: 16 },
   competition: { color: colors.textMuted, fontSize: 12, textAlign: 'center', marginBottom: 14 },
   row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   team: { flex: 1, alignItems: 'center', gap: 6 },
