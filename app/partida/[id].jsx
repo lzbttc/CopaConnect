@@ -3,6 +3,7 @@ import { View, Text, FlatList, Pressable, StyleSheet, KeyboardAvoidingView, Plat
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../../src/theme/colors';
 import { MatchCard } from '../../src/components/home/MatchCard';
 import { UnderlineTabs } from '../../src/components/commom/UnderlineTabs';
@@ -17,6 +18,7 @@ const TABS = [
 ];
 
 export default function MatchDetailsScreen() {
+  const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams(); // TODO(backend): usar id pra buscar a partida real
   const [activeTab, setActiveTab] = useState('comentarios');
   const [comments, setComments] = useState(mockComments);
@@ -27,8 +29,12 @@ export default function MatchDetailsScreen() {
 
   return (
     <LinearGradient colors={[colors.gradientStart, colors.gradientMid, colors.gradientEnd]} style={styles.flex}>
-      <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <Pressable onPress={() => router.back()} style={styles.backButton} hitSlop={12}>
+      <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <Pressable
+          onPress={() => router.back()}
+          style={[styles.backButton, { paddingTop: insets.top + 16 }]}
+          hitSlop={12}
+        >
           <Ionicons name="arrow-back" size={22} color={colors.text} />
         </Pressable>
 
@@ -54,7 +60,11 @@ export default function MatchDetailsScreen() {
           />
         )}
 
-        {activeTab === 'comentarios' && <CommentInput onSend={handleSendComment} />}
+        {activeTab === 'comentarios' && (
+          <View style={{ paddingBottom: insets.bottom }}>
+            <CommentInput onSend={handleSendComment} />
+          </View>
+        )}
       </KeyboardAvoidingView>
     </LinearGradient>
   );
@@ -62,7 +72,7 @@ export default function MatchDetailsScreen() {
 
 const styles = StyleSheet.create({
   flex: { flex: 1 },
-  backButton: { paddingHorizontal: 20, paddingTop: 16 },
+  backButton: { paddingHorizontal: 20 },
   headerWrapper: { paddingHorizontal: 20 },
   listContent: { paddingHorizontal: 20, paddingBottom: 12 },
 });

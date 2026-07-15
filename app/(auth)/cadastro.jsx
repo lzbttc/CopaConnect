@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, Pre
 import { LinearGradient } from 'expo-linear-gradient';
 import { Link, router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AuthInput } from '../../src/components/AuthInput';
 import { AuthButton } from '../../src/components/AuthButton';
 import { colors } from '../../src/theme/colors';
@@ -11,6 +12,7 @@ import { maskPhone } from '../../src/lib/utils/mask';
 import { register } from '../../src/services/authService';
 
 export default function CadastroScreen() {
+  const insets = useSafeAreaInsets();
   const [form, setForm] = useState({ nome: '', telefone: '', email: '', senha: '' });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -39,9 +41,19 @@ export default function CadastroScreen() {
 
   return (
     <LinearGradient colors={[colors.gradientStart, colors.gradientMid, colors.gradientEnd]} style={styles.flex}>
-      <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
-          <Pressable onPress={() => router.back()} style={styles.backButton} hitSlop={12}>
+      <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <ScrollView
+          contentContainerStyle={[
+            styles.scroll,
+            { paddingTop: insets.top + 60, paddingBottom: insets.bottom + 24 },
+          ]}
+          keyboardShouldPersistTaps="handled"
+        >
+          <Pressable
+            onPress={() => router.back()}
+            style={[styles.backButton, { top: insets.top + 10 }]}
+            hitSlop={12}
+          >
             <Ionicons name="arrow-back" size={22} color={colors.text} />
           </Pressable>
 
@@ -80,8 +92,8 @@ export default function CadastroScreen() {
 
 const styles = StyleSheet.create({
   flex: { flex: 1 },
-  scroll: { flexGrow: 1, justifyContent: 'center', paddingHorizontal: 24, paddingTop: 60 },
-  backButton: { position: 'absolute', top: 50, left: 20 },
+  scroll: { flexGrow: 1, justifyContent: 'center', paddingHorizontal: 24 },
+  backButton: { position: 'absolute', left: 20, zIndex: 1 },
   title: { fontSize: 32, fontWeight: '800', color: colors.text, textAlign: 'center', marginBottom: 28, letterSpacing: 2 },
   formError: { color: colors.error, textAlign: 'center', marginBottom: 12 },
   footer: { flexDirection: 'row', justifyContent: 'center', marginTop: 20 },

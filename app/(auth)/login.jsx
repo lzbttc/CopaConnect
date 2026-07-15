@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Link, router } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AuthInput } from '../../src/components/AuthInput';
 import { AuthButton } from '../../src/components/AuthButton';
 import { colors } from '../../src/theme/colors';
@@ -9,6 +10,7 @@ import { validateLogin } from '../../src/lib/validation/validators';
 import { login } from '../../src/services/authService';
 
 export default function LoginScreen() {
+  const insets = useSafeAreaInsets();
   const [form, setForm] = useState({ email: '', senha: '' });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -27,7 +29,7 @@ export default function LoginScreen() {
     setLoading(true);
     try {
       await login(form);
-      router.replace('/(tabs)'); 
+      router.replace('/(tabs)');
     } catch (e) {
       setFormError(e instanceof Error ? e.message : 'Erro ao entrar');
     } finally {
@@ -37,8 +39,14 @@ export default function LoginScreen() {
 
   return (
     <LinearGradient colors={[colors.gradientStart, colors.gradientMid, colors.gradientEnd]} style={styles.flex}>
-      <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+      <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <ScrollView
+          contentContainerStyle={[
+            styles.scroll,
+            { paddingTop: insets.top + 24, paddingBottom: insets.bottom + 24 },
+          ]}
+          keyboardShouldPersistTaps="handled"
+        >
           <Text style={styles.title}>LOGIN</Text>
 
           <AuthInput

@@ -1,5 +1,6 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../../src/theme/colors';
 
 const ICONS = {
@@ -11,6 +12,8 @@ const ICONS = {
 };
 
 export default function TabsLayout() {
+  const insets = useSafeAreaInsets();
+
   return (
     <Tabs
       screenOptions={({ route }) => ({
@@ -18,7 +21,13 @@ export default function TabsLayout() {
         tabBarShowLabel: false,
         tabBarActiveTintColor: colors.accent,
         tabBarInactiveTintColor: colors.textMuted,
-        tabBarStyle: { backgroundColor: colors.gradientStart, borderTopColor: colors.border },
+        tabBarStyle: {
+          backgroundColor: colors.gradientStart,
+          borderTopColor: colors.border,
+          height: 56 + insets.bottom,
+          paddingBottom: insets.bottom > 0 ? insets.bottom : 8,
+          paddingTop: 8,
+        },
         tabBarIcon: ({ color, size, focused }) => (
           <Ionicons
             name={focused ? ICONS[route.name] : `${ICONS[route.name]}-outline`}

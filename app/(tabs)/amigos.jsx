@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { FlatList, Text, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../../src/theme/colors';
 import { FriendsTabBar } from '../../src/components/amigos/FriendsTabBar';
 import { SearchBar } from '../../src/components/amigos/SearchBar';
@@ -14,6 +15,7 @@ function normalize(text) {
 }
 
 export default function AmigosScreen() {
+  const insets = useSafeAreaInsets();
   const [activeTab, setActiveTab] = useState('conversas');
   const [search, setSearch] = useState('');
   const [requests, setRequests] = useState(mockRequests);
@@ -40,7 +42,7 @@ export default function AmigosScreen() {
 
   return (
     <LinearGradient colors={[colors.gradientStart, colors.gradientMid, colors.gradientEnd]} style={styles.flex}>
-      <Text style={styles.title}>Amigos</Text>
+      <Text style={[styles.title, { paddingTop: insets.top + 16 }]}>Amigos</Text>
 
       <FriendsTabBar active={activeTab} onChange={setActiveTab} requestsCount={requests.length} />
 
@@ -71,7 +73,7 @@ export default function AmigosScreen() {
 
 const styles = StyleSheet.create({
   flex: { flex: 1 },
-  title: { color: colors.text, fontSize: 22, fontWeight: '800', paddingHorizontal: 20, paddingTop: 16, marginBottom: 4 },
+  title: { color: colors.text, fontSize: 22, fontWeight: '800', paddingHorizontal: 20, marginBottom: 4 },
   listContent: { paddingHorizontal: 20, paddingBottom: 32 },
   emptyText: { color: colors.textMuted, fontSize: 13, textAlign: 'center', marginTop: 24 },
 });

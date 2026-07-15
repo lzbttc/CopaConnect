@@ -1,11 +1,14 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../../theme/colors';
 
 export function HomeHeader({ notificationsCount = 0 }) {
+  const insets = useSafeAreaInsets();
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: insets.top + 8 }]}>
       <Text style={styles.logo}>CopaConnect</Text>
 
       <View style={styles.actions}>
@@ -40,7 +43,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingTop: 16,
     paddingBottom: 8,
   },
   logo: { color: colors.accent, fontSize: 22, fontWeight: '800', letterSpacing: 0.5 },
