@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { colors } from '../../theme/colors';
+import { typography } from '../../theme/typography';
 
 export function BolaoCard({ bolao }) {
   return (
@@ -27,13 +28,20 @@ export function EmptyBolaoCard() {
 }
 
 const styles = StyleSheet.create({
-  card: { backgroundColor: colors.cardBg, borderRadius: 14, padding: 16, marginBottom: 10 },
+  card: {
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.15)',
+    padding: 16,
+    marginBottom: 10,
+  },
   headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 2 },
-  nome: { color: colors.text, fontSize: 16, fontWeight: '700' },
-  posicao: { color: colors.text, fontSize: 13, fontWeight: '700' },
-  palpite: { color: colors.textMuted, fontSize: 12 },
-  palpiteValue: { color: colors.text, fontWeight: '700' },
-  pontos: { color: colors.text, fontSize: 13, fontWeight: '700' },
+  nome: { color: colors.text, fontSize: typography.fontSize['2xl'], fontFamily: typography.fontFamily.semiBold },
+  posicao: { color: colors.text, fontSize: typography.fontSize.lg, fontFamily: typography.fontFamily.semiBold },
+  palpite: { color: colors.textMuted, fontSize: typography.fontSize.lg, fontFamily: typography.fontFamily.regular },
+  palpiteValue: { color: colors.text, fontFamily: typography.fontFamily.semiBold },
+  pontos: { color: colors.text, fontSize: typography.fontSize.lg, fontFamily: typography.fontFamily.semiBold },
   emptyCard: { alignItems: 'center', justifyContent: 'center', paddingVertical: 24 },
-  emptyText: { color: colors.textMuted, textAlign: 'center', fontSize: 13 },
+  emptyText: { color: colors.textMuted, textAlign: 'center', fontSize: typography.fontSize.xl, fontFamily: typography.fontFamily.regular, lineHeight: 22 },
 });

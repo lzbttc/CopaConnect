@@ -1,6 +1,7 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
 import { colors } from '../../theme/colors';
+import { typography } from '../../theme/typography';
 
 const STATUS_LABEL = {
   agendada: 'Agendada',
@@ -54,17 +55,23 @@ export function MatchCard({ match, bare = false }) {
 }
 
 const styles = StyleSheet.create({
-  card: { backgroundColor: colors.cardBg, borderRadius: 16, padding: 16 },
+  card: {
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.15)',
+    padding: 16,
+  },
   cardBare: { paddingHorizontal: 4, paddingTop: 4, paddingBottom: 16 },
-  competition: { color: colors.textMuted, fontSize: 12, textAlign: 'center', marginBottom: 14 },
+  competition: { color: colors.textMuted, fontSize: typography.fontSize.lg, fontFamily: typography.fontFamily.regular, textAlign: 'center', marginBottom: 14 },
   row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   team: { flex: 1, alignItems: 'center', gap: 6 },
   flag: { fontSize: 32 },
-  teamName: { color: colors.text, fontSize: 13, fontWeight: '600' },
+  teamName: { color: colors.text, fontSize: typography.fontSize.xl, fontFamily: typography.fontFamily.semiBold },
   center: { flex: 1, alignItems: 'center', gap: 4 },
-  score: { color: colors.text, fontSize: 26, fontWeight: '800' },
+  score: { color: colors.text, fontSize: 32, fontFamily: typography.fontFamily.semiBold },
   liveRow: { flexDirection: 'row', alignItems: 'center', gap: 5 },
   liveDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: colors.live },
-  statusText: { color: colors.textMuted, fontSize: 12 },
-  subText: { color: colors.textMuted, fontSize: 11 },
+  statusText: { color: colors.textMuted, fontSize: typography.fontSize.lg, fontFamily: typography.fontFamily.regular },
+  subText: { color: colors.textMuted, fontSize: typography.fontSize.base, fontFamily: typography.fontFamily.regular },
 });

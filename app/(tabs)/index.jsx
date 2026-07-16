@@ -1,6 +1,8 @@
+import React from 'react';
 import { ScrollView, Text, Pressable, StyleSheet } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { colors } from '../../src/theme/colors';
+import { typography } from '../../src/theme/typography';
+import { ScreenBackground } from '../../src/components/common/ScreenBackground';
 import { HomeHeader } from '../../src/components/home/HomeHeader';
 import { MatchCard } from '../../src/components/home/MatchCard';
 import { BolaoCard, EmptyBolaoCard } from '../../src/components/home/BolaoCard';
@@ -13,15 +15,21 @@ export default function HomeScreen() {
   const isAgendada = mockMatch.status === 'agendada';
   const hasBoloes = mockBoloes.length > 0;
 
+  const getMatchTitle = () => {
+    if (mockMatch.status === 'ao_vivo') return 'PARTIDA Ao Vivo';
+    if (mockMatch.status === 'finalizada') return 'PARTIDA Finalizada';
+    return 'PARTIDA Agendada';
+  };
+
   return (
-    <LinearGradient colors={[colors.gradientStart, colors.gradientMid, colors.gradientEnd]} style={styles.flex}>
+    <ScreenBackground>
       <HomeHeader notificationsCount={mockNotificationsCount} />
 
       <ScrollView contentContainerStyle={styles.scroll}>
-        <Text style={styles.sectionTitle}>Partida ao Vivo</Text>
+        <Text style={styles.sectionTitle}>{getMatchTitle()}</Text>
         <MatchCard match={mockMatch} />
 
-        <Text style={styles.sectionTitle}>Meus Bolões</Text>
+        <Text style={styles.sectionTitle}>MEUS BOLOES</Text>
         {hasBoloes
           ? mockBoloes.map((bolao) => <BolaoCard key={bolao.id} bolao={bolao} />)
           : <EmptyBolaoCard />}
@@ -35,20 +43,34 @@ export default function HomeScreen() {
           </Pressable>
         )}
 
-        <Text style={styles.sectionTitle}>Amigos Online</Text>
+        <Text style={styles.sectionTitle}>AMIGOS ONLINE</Text>
         <FriendsOnline friends={mockFriendsOnline} extraCount={mockFriendsExtraCount} />
       </ScrollView>
-    </LinearGradient>
+    </ScreenBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  flex: { flex: 1 },
   scroll: { paddingHorizontal: 20, paddingBottom: 110, gap: 4 },
-  sectionTitle: { color: colors.text, fontSize: 16, fontWeight: '800', marginTop: 20, marginBottom: 10 },
-  createButton: {
-    backgroundColor: colors.accent, borderRadius: 28, paddingVertical: 15,
-    alignItems: 'center', marginTop: 4, marginBottom: 4,
+  sectionTitle: {
+    color: colors.text,
+    fontSize: typography.fontSize['3xl'],
+    fontFamily: typography.fontFamily.brand,
+    marginTop: 20,
+    marginBottom: 10,
+    letterSpacing: 1,
   },
-  createButtonText: { color: colors.accentText, fontSize: 15, fontWeight: '700' },
+  createButton: {
+    backgroundColor: colors.accent,
+    borderRadius: 28,
+    paddingVertical: 15,
+    alignItems: 'center',
+    marginTop: 12,
+    marginBottom: 12,
+  },
+  createButtonText: {
+    color: colors.accentText,
+    fontSize: typography.fontSize.xl,
+    fontFamily: typography.fontFamily.semiBold,
+  },
 });

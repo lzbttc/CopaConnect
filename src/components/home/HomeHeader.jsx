@@ -1,21 +1,27 @@
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { View, Text, Image, Pressable, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../../theme/colors';
+import { typography } from '../../theme/typography';
 
 export function HomeHeader({ notificationsCount = 0 }) {
   const insets = useSafeAreaInsets();
 
   return (
     <View style={[styles.container, { paddingTop: insets.top + 8 }]}>
-      <Text style={styles.logo}>CopaConnect</Text>
+      <View style={styles.brand}>
+        <Image source={require('../../../assets/symbol.png')} style={styles.symbol} resizeMode="contain" />
+        <Text style={styles.logo}>CopaConnect</Text>
+      </View>
 
       <View style={styles.actions}>
         <Pressable
           style={styles.iconButton}
           hitSlop={8}
-          onPress={() => router.push('/notificacoes')} // TODO(Etapa 5): criar rota de notificações
+          onPress={() => router.push('/notificacoes')}
+          accessibilityRole="button"
+          accessibilityLabel={`Notificações${notificationsCount > 0 ? `, ${notificationsCount} não lidas` : ''}`}
         >
           <Ionicons name="notifications-outline" size={22} color={colors.accent} />
           {notificationsCount > 0 && (
@@ -28,6 +34,8 @@ export function HomeHeader({ notificationsCount = 0 }) {
         <Pressable
           style={styles.profileButton}
           hitSlop={8}
+          accessibilityRole="button"
+          accessibilityLabel="Perfil do usuário"
           onPress={() => console.log('TODO: tela de perfil ainda não definida')}
         >
           <Ionicons name="person-outline" size={20} color={colors.text} />
@@ -45,7 +53,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 8,
   },
-  logo: { color: colors.accent, fontSize: 22, fontWeight: '800', letterSpacing: 0.5 },
+  brand: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  symbol: { width: 28, height: 28 },
+  logo: { color: colors.accent, fontSize: typography.fontSize['4xl'], fontFamily: typography.fontFamily.brand, letterSpacing: 0.5 },
   actions: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   iconButton: { padding: 4 },
   badge: {
@@ -60,7 +70,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 3,
   },
-  badgeText: { color: colors.accentText, fontSize: 10, fontWeight: '700' },
+  badgeText: { color: colors.accentText, fontSize: typography.fontSize.xs, fontFamily: typography.fontFamily.semiBold },
   profileButton: {
     width: 34,
     height: 34,
