@@ -7,6 +7,7 @@ export function DateSelector({ dates, selectedKey, onSelect }) {
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.container}
+      style={styles.scroll}
     >
       {dates.map((item) => {
         const isSelected = item.key === selectedKey;
@@ -26,6 +27,7 @@ export function DateSelector({ dates, selectedKey, onSelect }) {
 }
 
 const styles = StyleSheet.create({
+  scroll: { flexGrow: 0, height: 115, overflow: 'visible' },
   container: { gap: 10, paddingHorizontal: 20, paddingVertical: 12 },
   pill: {
     width: 56, height: 64, borderRadius: 32,

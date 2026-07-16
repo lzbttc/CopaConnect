@@ -59,7 +59,7 @@ export default function AgendaScreen() {
 const styles = StyleSheet.create({
   flex: { flex: 1 },
   title: { color: colors.text, fontSize: 22, fontWeight: '800', paddingHorizontal: 20 },
-  listContent: { paddingHorizontal: 20, paddingBottom: 32 },
+  listContent: { paddingHorizontal: 20, paddingBottom: 110 },
   sectionTitle: { color: colors.text, fontSize: 14, fontWeight: '700', marginTop: 18, marginBottom: 10 },
   cardWrapper: { marginBottom: 12 },
   emptyText: { color: colors.textMuted, fontSize: 12, marginBottom: 6 },

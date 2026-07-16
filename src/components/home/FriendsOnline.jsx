@@ -4,7 +4,12 @@ import { colors } from '../../theme/colors';
 
 export function FriendsOnline({ friends, extraCount = 0 }) {
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.container}>
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.container}
+      style={styles.scroll}
+    >
       {friends.map((friend) => (
         <View key={friend.id} style={styles.item}>
           <View style={styles.avatarWrapper}>
@@ -27,7 +32,8 @@ export function FriendsOnline({ friends, extraCount = 0 }) {
 }
 
 const styles = StyleSheet.create({
-  container: { gap: 16, paddingRight: 8 },
+  scroll: { flexGrow: 0, height: 105, overflow: 'visible' },
+  container: { gap: 16, paddingRight: 8, paddingVertical: 10 },
   item: { alignItems: 'center', width: 60 },
   avatarWrapper: { position: 'relative' },
   onlineDot: {

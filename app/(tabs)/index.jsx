@@ -44,7 +44,7 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   flex: { flex: 1 },
-  scroll: { paddingHorizontal: 20, paddingBottom: 32, gap: 4 },
+  scroll: { paddingHorizontal: 20, paddingBottom: 110, gap: 4 },
   sectionTitle: { color: colors.text, fontSize: 16, fontWeight: '800', marginTop: 20, marginBottom: 10 },
   createButton: {
     backgroundColor: colors.accent, borderRadius: 28, paddingVertical: 15,
