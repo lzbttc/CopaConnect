@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { View, Text, FlatList, Pressable, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import { View, Text, FlatList, Pressable, StyleSheet, Keyboard, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -22,14 +22,34 @@ export default function MatchDetailsScreen() {
   const { id } = useLocalSearchParams(); // TODO(backend): usar id pra buscar a partida real
   const [activeTab, setActiveTab] = useState('comentarios');
   const [comments, setComments] = useState(mockComments);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  // Custom keyboard height listener to bypass KeyboardAvoidingView bugs on New Architecture
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      (e) => setKeyboardHeight(e.endCoordinates.height)
+    );
+    const hideSubscription = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+      () => setKeyboardHeight(0)
+    );
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
 
   function handleSendComment(texto) {
     setComments((prev) => [{ id: `local-${Date.now()}`, autor: 'Você', texto, tempo: 'Agora' }, ...prev]);
   }
 
+  const keyboardOffset = keyboardHeight > 0 ? keyboardHeight + Platform.select({ ios: 16, android: 48 }) : 0;
+
   return (
     <LinearGradient colors={[colors.gradientStart, colors.gradientMid, colors.gradientEnd]} style={styles.flex}>
-      <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <View style={[styles.flex, { paddingBottom: keyboardOffset }]}>
         <Pressable
           onPress={() => router.back()}
           style={[styles.backButton, { paddingTop: insets.top + 16 }]}
@@ -61,11 +81,11 @@ export default function MatchDetailsScreen() {
         )}
 
         {activeTab === 'comentarios' && (
-          <View style={{ paddingBottom: insets.bottom }}>
+          <View style={{ paddingBottom: keyboardOffset > 0 ? 0 : insets.bottom }}>
             <CommentInput onSend={handleSendComment} />
           </View>
         )}
-      </KeyboardAvoidingView>
+      </View>
     </LinearGradient>
   );
 }
