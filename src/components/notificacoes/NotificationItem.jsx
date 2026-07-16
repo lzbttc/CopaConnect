@@ -1,33 +1,89 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../../theme/colors';
+import { typography } from '../../theme/typography';
+
+const ICON_MAP = {
+  trophy: 'trophy-outline',
+  people: 'people-outline',
+  calendar: 'calendar-outline',
+};
 
 export function NotificationItem({ icon, title, description, time, read }) {
+  const iconName = ICON_MAP[icon] || 'notifications-outline';
+
   return (
     <View style={styles.row}>
-      {!read && <View style={styles.unreadDot} />}
-      <View style={[styles.iconWrapper, read && styles.iconWrapperRead]}>
-        <Ionicons name={icon} size={18} color={colors.accent} />
+      <View style={styles.dotContainer}>
+        {!read && <View style={styles.unreadDot} />}
       </View>
+
+      <View style={styles.iconWrapper}>
+        <Ionicons name={iconName} size={22} color={colors.accent} />
+      </View>
+
       <View style={styles.textWrapper}>
-        <Text style={styles.title}>{title}</Text>
+        <View style={styles.titleRow}>
+          <Text style={styles.title} numberOfLines={1}>{title}</Text>
+          <Text style={styles.time}>{time}</Text>
+        </View>
         <Text style={styles.description}>{description}</Text>
-        <Text style={styles.time}>{time}</Text>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  row: { flexDirection: 'row', alignItems: 'flex-start', gap: 12, paddingVertical: 12 },
-  unreadDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: colors.accent, marginTop: 8 },
-  iconWrapper: {
-    width: 40, height: 40, borderRadius: 20, backgroundColor: colors.cardBg,
-    alignItems: 'center', justifyContent: 'center',
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 14,
+    gap: 12,
   },
-  iconWrapperRead: { opacity: 0.6 },
-  textWrapper: { flex: 1 },
-  title: { color: colors.text, fontSize: 14, fontWeight: '700' },
-  description: { color: colors.textMuted, fontSize: 12, marginTop: 2 },
-  time: { color: colors.textMuted, fontSize: 11, marginTop: 4 },
+  dotContainer: {
+    width: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  unreadDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: colors.accent,
+  },
+  iconWrapper: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textWrapper: {
+    flex: 1,
+    gap: 4,
+  },
+  titleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 8,
+  },
+  title: {
+    color: colors.text,
+    fontSize: typography.fontSize.xl,
+    fontFamily: typography.fontFamily.semiBold,
+    flex: 1,
+  },
+  time: {
+    color: colors.textMuted,
+    fontSize: typography.fontSize.sm,
+    fontFamily: typography.fontFamily.regular,
+  },
+  description: {
+    color: colors.textMuted,
+    fontSize: typography.fontSize.base,
+    fontFamily: typography.fontFamily.regular,
+    lineHeight: 16,
+  },
 });
