@@ -49,7 +49,7 @@ export default function LoginScreen() {
           keyboardShouldPersistTaps="handled"
         >
           <View style={styles.card}>
-            <Text style={styles.title}>LOGIN</Text>
+            <Text style={styles.title}>Login</Text>
 
             <AuthInput
               placeholder="E-mail" icon="mail-outline" keyboardType="email-address"
@@ -83,10 +83,10 @@ const styles = StyleSheet.create({
   flex: { flex: 1 },
   scroll: { flexGrow: 1, justifyContent: 'center', paddingHorizontal: 24 },
   card: {
-    backgroundColor: colors.cardBg,
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
     borderRadius: 32,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: 'rgba(255, 255, 255, 0.15)',
     paddingHorizontal: 24,
     paddingVertical: 36,
   },

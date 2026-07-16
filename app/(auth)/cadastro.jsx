@@ -61,7 +61,7 @@ export default function CadastroScreen() {
           </Pressable>
 
           <View style={styles.card}>
-            <Text style={styles.title}>CADASTRO</Text>
+            <Text style={styles.title}>Cadastro</Text>
 
             <AuthInput
               placeholder="Nome" icon="person-outline" maxLength={50}
@@ -100,10 +100,10 @@ const styles = StyleSheet.create({
   scroll: { flexGrow: 1, justifyContent: 'center', paddingHorizontal: 24 },
   backButton: { position: 'absolute', left: 20, zIndex: 1 },
   card: {
-    backgroundColor: colors.cardBg,
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
     borderRadius: 32,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: 'rgba(255, 255, 255, 0.15)',
     paddingHorizontal: 24,
     paddingVertical: 36,
   },
