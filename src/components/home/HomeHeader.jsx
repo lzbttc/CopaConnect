@@ -53,9 +53,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 8,
   },
-  brand: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  brand: { flexDirection: 'row', alignItems: 'center', gap: 4 },
   symbol: { width: 28, height: 28 },
-  logo: { color: colors.text, fontSize: typography.fontSize['4xl'], fontFamily: typography.fontFamily.brand, letterSpacing: 0.5 },
+  logo: { color: colors.text, fontSize: typography.fontSize['5xl'], fontFamily: typography.fontFamily.brand, letterSpacing: 0.5 },
   actions: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   iconButton: { padding: 4 },
   badge: {
