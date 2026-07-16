@@ -1,8 +1,9 @@
 import React, { useMemo, useState, useCallback } from 'react';
 import { FlatList, Text, StyleSheet } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../../src/theme/colors';
+import { typography } from '../../src/theme/typography';
+import { ScreenBackground } from '../../src/components/common/ScreenBackground';
 import { FriendsTabBar } from '../../src/components/amigos/FriendsTabBar';
 import { SearchBar } from '../../src/components/amigos/SearchBar';
 import { ConversationItem } from '../../src/components/amigos/ConversationItem';
@@ -19,30 +20,42 @@ export default function AmigosScreen() {
   const [activeTab, setActiveTab] = useState('conversas');
   const [search, setSearch] = useState('');
   const [requests, setRequests] = useState(mockRequests ?? []);
+  const [friendsList, setFriendsList] = useState(mockFriends ?? []);
 
-  // Stable callbacks for actions
-  const handleAccept = useCallback((id) => {
-    // TODO(backend): confirmar aceite do convite via API
-    setRequests((prev) => prev.filter((r) => r.id !== id));
+  const totalUnreadCount = useMemo(() => {
+    return mockConversations.reduce((sum, chat) => sum + (chat.unreadCount || 0), 0);
   }, []);
+
+  const handleAccept = useCallback((id) => {
+    const acceptedRequest = requests.find((r) => r.id === id);
+    if (acceptedRequest) {
+      setFriendsList((prev) => [
+        ...prev,
+        {
+          id: `friend-${Date.now()}`,
+          friendId: acceptedRequest.friendId,
+          nome: acceptedRequest.nome,
+          online: acceptedRequest.online,
+        }
+      ]);
+    }
+    setRequests((prev) => prev.filter((r) => r.id !== id));
+  }, [requests]);
 
   const handleDecline = useCallback((id) => {
-    // TODO(backend): confirmar recusa do convite via API
     setRequests((prev) => prev.filter((r) => r.id !== id));
   }, []);
 
-  // Memoized data filtering with optional chaining safety
   const filteredData = useMemo(() => {
     const query = normalize(search);
     const source = activeTab === 'conversas' ? (mockConversations ?? [])
       : activeTab === 'solicitacoes' ? (requests ?? [])
-      : (mockFriends ?? []);
+      : (friendsList ?? []);
 
     if (!query) return source;
     return source.filter((item) => normalize(item?.nome).includes(query));
-  }, [activeTab, search, requests]);
+  }, [activeTab, search, requests, friendsList]);
 
-  // Memoized renderItem to prevent child re-renders
   const renderItem = useCallback(({ item }) => {
     if (!item) return null;
 
@@ -54,6 +67,7 @@ export default function AmigosScreen() {
           online={item.online}
           lastMessage={item.lastMessage}
           time={item.time}
+          unreadCount={item.unreadCount}
         />
       );
     }
@@ -78,19 +92,22 @@ export default function AmigosScreen() {
     );
   }, [activeTab, handleAccept, handleDecline]);
 
-  // Stable key extractor
   const keyExtractor = useCallback((item) => item?.id?.toString() ?? Math.random().toString(), []);
 
-  // Memoized empty state component
   const ListEmptyComponent = useMemo(() => (
     <Text style={styles.emptyText}>Nenhum resultado encontrado</Text>
   ), []);
 
   return (
-    <LinearGradient colors={[colors.gradientStart, colors.gradientMid, colors.gradientEnd]} style={styles.flex}>
+    <ScreenBackground>
       <Text style={[styles.title, { paddingTop: insets.top + 16 }]}>Amigos</Text>
 
-      <FriendsTabBar active={activeTab} onChange={setActiveTab} requestsCount={requests.length} />
+      <FriendsTabBar
+        active={activeTab}
+        onChange={setActiveTab}
+        requestsCount={requests.length}
+        unreadCount={totalUnreadCount}
+      />
 
       <SearchBar value={search} onChangeText={setSearch} />
 
@@ -104,13 +121,18 @@ export default function AmigosScreen() {
         maxToRenderPerBatch={10}
         windowSize={5}
       />
-    </LinearGradient>
+    </ScreenBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  flex: { flex: 1 },
-  title: { color: colors.text, fontSize: 22, fontWeight: '800', paddingHorizontal: 20, marginBottom: 4 },
+  title: {
+    color: colors.text,
+    fontSize: typography.fontSize['4xl'],
+    fontFamily: typography.fontFamily.brand,
+    paddingHorizontal: 20,
+    marginBottom: 12,
+  },
   listContent: { paddingHorizontal: 20, paddingBottom: 110 },
-  emptyText: { color: colors.textMuted, fontSize: 13, textAlign: 'center', marginTop: 24 },
+  emptyText: { color: colors.textMuted, fontSize: typography.fontSize.lg, fontFamily: typography.fontFamily.regular, textAlign: 'center', marginTop: 24 },
 });
