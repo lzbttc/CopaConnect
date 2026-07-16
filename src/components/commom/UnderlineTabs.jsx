@@ -1,5 +1,6 @@
 import { View, Pressable, Text, StyleSheet } from 'react-native';
 import { colors } from '../../theme/colors';
+import { typography } from '../../theme/typography';
 
 export function UnderlineTabs({ tabs, active, onChange }) {
   return (
@@ -18,9 +19,9 @@ export function UnderlineTabs({ tabs, active, onChange }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: colors.border },
-  tab: { flex: 1, alignItems: 'center', paddingVertical: 14 },
-  label: { color: colors.textMuted, fontSize: 15, fontWeight: '700' },
+  container: { flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: 'rgba(255, 255, 255, 0.15)' },
+  tab: { flex: 1, alignItems: 'center', paddingVertical: 18, position: 'relative' },
+  label: { color: colors.textMuted, fontSize: typography.fontSize['3xl'], fontFamily: typography.fontFamily.brand, letterSpacing: 0.5 },
   labelActive: { color: colors.text },
-  underline: { height: 3, backgroundColor: colors.accent, width: '60%', marginTop: 8, borderRadius: 2 },
+  underline: { height: 3, backgroundColor: colors.accent, width: '100%', position: 'absolute', bottom: 0 },
 });

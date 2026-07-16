@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, TextInput, Pressable, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../../theme/colors';
+import { typography } from '../../theme/typography';
 
 export function CommentInput({ onSend }) {
   const [text, setText] = useState('');
@@ -9,7 +10,7 @@ export function CommentInput({ onSend }) {
   function handleSend() {
     const trimmed = text.trim();
     if (!trimmed) return;
-    onSend(trimmed); // TODO(backend): enviar comentário via API
+    onSend(trimmed);
     setText('');
   }
 
@@ -24,7 +25,7 @@ export function CommentInput({ onSend }) {
         maxLength={280}
       />
       <Pressable onPress={handleSend} hitSlop={8} disabled={!text.trim()}>
-        <Ionicons name="send" size={20} color={text.trim() ? colors.accent : colors.textMuted} />
+        <Ionicons name="paper-plane-outline" size={22} color={colors.accent} />
       </Pressable>
     </View>
   );
@@ -32,10 +33,22 @@ export function CommentInput({ onSend }) {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row', alignItems: 'center', gap: 10,
-    borderWidth: 1, borderColor: colors.border, borderRadius: 24,
-    paddingHorizontal: 16, paddingVertical: 10,
-    marginHorizontal: 20, marginBottom: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.15)',
+    borderRadius: 24,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginHorizontal: 20,
+    marginBottom: 16,
+    backgroundColor: 'transparent',
   },
-  input: { flex: 1, color: colors.text, fontSize: 14 },
+  input: {
+    flex: 1,
+    color: colors.text,
+    fontSize: typography.fontSize.lg,
+    fontFamily: typography.fontFamily.regular,
+  },
 });

@@ -1,10 +1,10 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
-import { View, Text, FlatList, Pressable, StyleSheet, Keyboard, Platform } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import React, { useState, useEffect } from 'react';
+import { View, FlatList, Pressable, StyleSheet, Keyboard, Platform } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../../src/theme/colors';
+import { ScreenBackground } from '../../src/components/common/ScreenBackground';
 import { MatchCard } from '../../src/components/home/MatchCard';
 import { UnderlineTabs } from '../../src/components/commom/UnderlineTabs';
 import { CommentItem } from '../../src/components/detalhes/CommentItem';
@@ -19,12 +19,11 @@ const TABS = [
 
 export default function MatchDetailsScreen() {
   const insets = useSafeAreaInsets();
-  const { id } = useLocalSearchParams(); // TODO(backend): usar id pra buscar a partida real
+  const { id } = useLocalSearchParams();
   const [activeTab, setActiveTab] = useState('comentarios');
   const [comments, setComments] = useState(mockComments);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
 
-  // Custom keyboard height listener to bypass KeyboardAvoidingView bugs on New Architecture
   useEffect(() => {
     const showSubscription = Keyboard.addListener(
       Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
@@ -48,18 +47,20 @@ export default function MatchDetailsScreen() {
   const keyboardOffset = keyboardHeight > 0 ? keyboardHeight + Platform.select({ ios: 16, android: 48 }) : 0;
 
   return (
-    <LinearGradient colors={[colors.gradientStart, colors.gradientMid, colors.gradientEnd]} style={styles.flex}>
+    <ScreenBackground>
       <View style={[styles.flex, { paddingBottom: keyboardOffset }]}>
-        <Pressable
-          onPress={() => router.back()}
-          style={[styles.backButton, { paddingTop: insets.top + 16 }]}
-          hitSlop={12}
-        >
-          <Ionicons name="arrow-back" size={22} color={colors.text} />
-        </Pressable>
+        <View style={styles.headerContainer}>
+          <Pressable
+            onPress={() => router.back()}
+            style={[styles.backButton, { top: insets.top + 8 }]}
+            hitSlop={12}
+          >
+            <Ionicons name="chevron-back" size={28} color={colors.accent} />
+          </Pressable>
 
-        <View style={styles.headerWrapper}>
-          <MatchCard match={mockMatch} bare />
+          <View style={[styles.headerWrapper, { paddingTop: insets.top + 14 }]}>
+            <MatchCard match={mockMatch} bare />
+          </View>
         </View>
 
         <UnderlineTabs tabs={TABS} active={activeTab} onChange={setActiveTab} />
@@ -86,13 +87,14 @@ export default function MatchDetailsScreen() {
           </View>
         )}
       </View>
-    </LinearGradient>
+    </ScreenBackground>
   );
 }
 
 const styles = StyleSheet.create({
   flex: { flex: 1 },
-  backButton: { paddingHorizontal: 20 },
+  headerContainer: { position: 'relative' },
+  backButton: { position: 'absolute', left: 16, zIndex: 10 },
   headerWrapper: { paddingHorizontal: 20 },
-  listContent: { paddingHorizontal: 20, paddingBottom: 12 },
+  listContent: { paddingHorizontal: 20, paddingVertical: 12 },
 });

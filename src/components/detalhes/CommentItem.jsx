@@ -1,11 +1,14 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../../theme/colors';
+import { typography } from '../../theme/typography';
 
 export function CommentItem({ autor, texto, tempo }) {
   return (
     <View style={styles.row}>
-      <Ionicons name="person-circle-outline" size={36} color={colors.textMuted} />
+      <View style={styles.avatarWrapper}>
+        <Ionicons name="person-outline" size={20} color={colors.accent} />
+      </View>
       <View style={styles.textWrapper}>
         <View style={styles.headerRow}>
           <Text style={styles.autor}>{autor}</Text>
@@ -18,10 +21,18 @@ export function CommentItem({ autor, texto, tempo }) {
 }
 
 const styles = StyleSheet.create({
-  row: { flexDirection: 'row', gap: 12, paddingVertical: 14 },
-  textWrapper: { flex: 1 },
-  headerRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  autor: { color: colors.text, fontSize: 14, fontWeight: '700' },
-  tempo: { color: colors.textMuted, fontSize: 12 },
-  texto: { color: colors.text, fontSize: 13, marginTop: 2, opacity: 0.9 },
+  row: { flexDirection: 'row', gap: 12, paddingVertical: 14, alignItems: 'flex-start' },
+  avatarWrapper: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textWrapper: { flex: 1, gap: 2 },
+  headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  autor: { color: colors.text, fontSize: typography.fontSize.xl, fontFamily: typography.fontFamily.semiBold },
+  tempo: { color: colors.textMuted, fontSize: typography.fontSize.sm, fontFamily: typography.fontFamily.regular },
+  texto: { color: colors.text, fontSize: typography.fontSize.lg, fontFamily: typography.fontFamily.regular, marginTop: 4, lineHeight: 18 },
 });
