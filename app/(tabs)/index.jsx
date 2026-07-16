@@ -16,9 +16,9 @@ export default function HomeScreen() {
   const hasBoloes = mockBoloes.length > 0;
 
   const getMatchTitle = () => {
-    if (mockMatch.status === 'ao_vivo') return 'PARTIDA Ao Vivo';
-    if (mockMatch.status === 'finalizada') return 'PARTIDA Finalizada';
-    return 'PARTIDA Agendada';
+    if (mockMatch.status === 'ao_vivo') return 'Partida Ao Vivo';
+    if (mockMatch.status === 'finalizada') return 'Partida Finalizada';
+    return 'Partida Agendada';
   };
 
   return (
@@ -29,7 +29,7 @@ export default function HomeScreen() {
         <Text style={styles.sectionTitle}>{getMatchTitle()}</Text>
         <MatchCard match={mockMatch} />
 
-        <Text style={styles.sectionTitle}>MEUS BOLOES</Text>
+        <Text style={styles.sectionTitle}>Meus Bolões</Text>
         {hasBoloes
           ? mockBoloes.map((bolao) => <BolaoCard key={bolao.id} bolao={bolao} />)
           : <EmptyBolaoCard />}
@@ -43,7 +43,7 @@ export default function HomeScreen() {
           </Pressable>
         )}
 
-        <Text style={styles.sectionTitle}>AMIGOS ONLINE</Text>
+        <Text style={styles.sectionTitle}>Amigos Online</Text>
         <FriendsOnline friends={mockFriendsOnline} extraCount={mockFriendsExtraCount} />
       </ScrollView>
     </ScreenBackground>

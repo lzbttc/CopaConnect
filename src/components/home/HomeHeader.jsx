@@ -11,8 +11,8 @@ export function HomeHeader({ notificationsCount = 0 }) {
   return (
     <View style={[styles.container, { paddingTop: insets.top + 8 }]}>
       <View style={styles.brand}>
-        <Image source={require('../../../assets/symbol.png')} style={styles.symbol} resizeMode="contain" />
         <Text style={styles.logo}>CopaConnect</Text>
+        <Image source={require('../../../assets/symbol.png')} style={styles.symbol} resizeMode="contain" />
       </View>
 
       <View style={styles.actions}>
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   },
   brand: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   symbol: { width: 28, height: 28 },
-  logo: { color: colors.accent, fontSize: typography.fontSize['4xl'], fontFamily: typography.fontFamily.brand, letterSpacing: 0.5 },
+  logo: { color: colors.text, fontSize: typography.fontSize['4xl'], fontFamily: typography.fontFamily.brand, letterSpacing: 0.5 },
   actions: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   iconButton: { padding: 4 },
   badge: {

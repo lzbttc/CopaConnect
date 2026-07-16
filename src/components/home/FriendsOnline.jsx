@@ -15,7 +15,7 @@ export function FriendsOnline({ friends, extraCount = 0 }) {
         {friends.map((friend) => (
           <View key={friend.id} style={styles.item}>
             <View style={styles.avatarWrapper}>
-              <Ionicons name="person-circle-outline" size={40} color={colors.textMuted} />
+              <Ionicons name="person-outline" size={20} color={colors.accent} />
               <View style={styles.onlineDot} />
             </View>
             <Text style={styles.name} numberOfLines={1}>{friend.nome}</Text>
@@ -43,14 +43,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 14,
   },
-  scroll: { flexGrow: 0, overflow: 'visible' },
-  container: { gap: 16, paddingRight: 8 },
+  scroll: { flexGrow: 0 },
+  container: { gap: 16, paddingRight: 16 },
   item: { alignItems: 'center', width: 60 },
-  avatarWrapper: { position: 'relative' },
+  avatarWrapper: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+  },
   onlineDot: {
     position: 'absolute',
     bottom: 0,
-    right: 2,
+    right: 0,
     width: 10,
     height: 10,
     borderRadius: 5,
