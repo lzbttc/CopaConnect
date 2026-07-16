@@ -78,10 +78,10 @@ export default function CadastroScreen() {
 
           {formError && <Text style={styles.formError}>{formError}</Text>}
 
-          <AuthButton label="Entrar" onPress={onSubmit} loading={loading} />
+          <AuthButton label="Cadastrar" onPress={onSubmit} loading={loading} />
 
           <View style={styles.footer}>
-            <Text style={styles.footerText}>Não tem uma conta? </Text>
+            <Text style={styles.footerText}>Já tem uma conta? </Text>
             <Link href="/(auth)/login" style={styles.footerLink}>Entre</Link>
           </View>
         </ScrollView>
