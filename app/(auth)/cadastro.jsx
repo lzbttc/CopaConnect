@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, Pressable } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Link, router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AuthInput } from '../../src/components/AuthInput';
 import { AuthButton } from '../../src/components/AuthButton';
+import { ScreenBackground } from '../../src/components/common/ScreenBackground';
 import { colors } from '../../src/theme/colors';
+import { typography } from '../../src/theme/typography';
 import { validateCadastro } from '../../src/lib/validation/validators';
 import { maskPhone } from '../../src/lib/utils/mask';
 import { register } from '../../src/services/authService';
@@ -40,7 +41,7 @@ export default function CadastroScreen() {
   }
 
   return (
-    <LinearGradient colors={[colors.gradientStart, colors.gradientMid, colors.gradientEnd]} style={styles.flex}>
+    <ScreenBackground>
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <ScrollView
           contentContainerStyle={[
@@ -53,40 +54,44 @@ export default function CadastroScreen() {
             onPress={() => router.back()}
             style={[styles.backButton, { top: insets.top + 10 }]}
             hitSlop={12}
+            accessibilityRole="button"
+            accessibilityLabel="Voltar"
           >
             <Ionicons name="arrow-back" size={22} color={colors.text} />
           </Pressable>
 
-          <Text style={styles.title}>CADASTRO</Text>
+          <View style={styles.card}>
+            <Text style={styles.title}>CADASTRO</Text>
 
-          <AuthInput
-            placeholder="Nome" icon="person-outline" maxLength={50}
-            value={form.nome} onChangeText={(v) => setField('nome', v)} error={errors.nome}
-          />
-          <AuthInput
-            placeholder="Telefone" icon="call-outline" keyboardType="phone-pad"
-            value={form.telefone} onChangeText={(v) => setField('telefone', maskPhone(v))} error={errors.telefone}
-          />
-          <AuthInput
-            placeholder="E-mail" icon="mail-outline" keyboardType="email-address"
-            value={form.email} onChangeText={(v) => setField('email', v)} error={errors.email}
-          />
-          <AuthInput
-            placeholder="Senha" icon="lock-closed-outline" isPassword
-            value={form.senha} onChangeText={(v) => setField('senha', v)} error={errors.senha}
-          />
+            <AuthInput
+              placeholder="Nome" icon="person-outline" maxLength={50}
+              value={form.nome} onChangeText={(v) => setField('nome', v)} error={errors.nome}
+            />
+            <AuthInput
+              placeholder="Telefone" icon="call-outline" keyboardType="phone-pad"
+              value={form.telefone} onChangeText={(v) => setField('telefone', maskPhone(v))} error={errors.telefone}
+            />
+            <AuthInput
+              placeholder="E-mail" icon="mail-outline" keyboardType="email-address"
+              value={form.email} onChangeText={(v) => setField('email', v)} error={errors.email}
+            />
+            <AuthInput
+              placeholder="Senha" icon="lock-closed-outline" isPassword
+              value={form.senha} onChangeText={(v) => setField('senha', v)} error={errors.senha}
+            />
 
-          {formError && <Text style={styles.formError}>{formError}</Text>}
+            {formError && <Text style={styles.formError}>{formError}</Text>}
 
-          <AuthButton label="Cadastrar" onPress={onSubmit} loading={loading} />
+            <AuthButton label="Cadastrar" onPress={onSubmit} loading={loading} />
 
-          <View style={styles.footer}>
-            <Text style={styles.footerText}>Já tem uma conta? </Text>
-            <Link href="/(auth)/login" style={styles.footerLink}>Entre</Link>
+            <View style={styles.footer}>
+              <Text style={styles.footerText}>Já tem uma conta? </Text>
+              <Link href="/(auth)/login" style={styles.footerLink}>Entre</Link>
+            </View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-    </LinearGradient>
+    </ScreenBackground>
   );
 }
 
@@ -94,9 +99,42 @@ const styles = StyleSheet.create({
   flex: { flex: 1 },
   scroll: { flexGrow: 1, justifyContent: 'center', paddingHorizontal: 24 },
   backButton: { position: 'absolute', left: 20, zIndex: 1 },
-  title: { fontSize: 32, fontWeight: '800', color: colors.text, textAlign: 'center', marginBottom: 28, letterSpacing: 2 },
-  formError: { color: colors.error, textAlign: 'center', marginBottom: 12 },
-  footer: { flexDirection: 'row', justifyContent: 'center', marginTop: 20 },
-  footerText: { color: colors.text, fontSize: 13 },
-  footerLink: { color: colors.accent, fontSize: 13, fontWeight: '700' },
+  card: {
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.15)',
+    paddingHorizontal: 24,
+    paddingVertical: 32,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  title: {
+    fontSize: typography.fontSize['6xl'],
+    fontFamily: typography.fontFamily.brand,
+    color: colors.text,
+    textAlign: 'center',
+    marginBottom: 28,
+    letterSpacing: 2,
+  },
+  formError: {
+    color: colors.error,
+    textAlign: 'center',
+    marginBottom: 12,
+    fontFamily: typography.fontFamily.regular,
+  },
+  footer: { flexDirection: 'row', justifyContent: 'center', marginTop: 24 },
+  footerText: {
+    color: colors.text,
+    fontSize: typography.fontSize.lg,
+    fontFamily: typography.fontFamily.regular,
+  },
+  footerLink: {
+    color: colors.accent,
+    fontSize: typography.fontSize.lg,
+    fontFamily: typography.fontFamily.semiBold,
+  },
 });

@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, Pressable } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Link, router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AuthInput } from '../../src/components/AuthInput';
 import { AuthButton } from '../../src/components/AuthButton';
+import { ScreenBackground } from '../../src/components/common/ScreenBackground';
 import { colors } from '../../src/theme/colors';
+import { typography } from '../../src/theme/typography';
 import { validateLogin } from '../../src/lib/validation/validators';
 import { login } from '../../src/services/authService';
 
@@ -38,7 +39,7 @@ export default function LoginScreen() {
   }
 
   return (
-    <LinearGradient colors={[colors.gradientStart, colors.gradientMid, colors.gradientEnd]} style={styles.flex}>
+    <ScreenBackground>
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <ScrollView
           contentContainerStyle={[
@@ -47,42 +48,83 @@ export default function LoginScreen() {
           ]}
           keyboardShouldPersistTaps="handled"
         >
-          <Text style={styles.title}>LOGIN</Text>
+          <View style={styles.card}>
+            <Text style={styles.title}>LOGIN</Text>
 
-          <AuthInput
-            placeholder="E-mail" icon="mail-outline" keyboardType="email-address"
-            value={form.email} onChangeText={(v) => setField('email', v)} error={errors.email}
-          />
-          <AuthInput
-            placeholder="Senha" icon="lock-closed-outline" isPassword
-            value={form.senha} onChangeText={(v) => setField('senha', v)} error={errors.senha}
-          />
+            <AuthInput
+              placeholder="E-mail" icon="mail-outline" keyboardType="email-address"
+              value={form.email} onChangeText={(v) => setField('email', v)} error={errors.email}
+            />
+            <AuthInput
+              placeholder="Senha" icon="lock-closed-outline" isPassword
+              value={form.senha} onChangeText={(v) => setField('senha', v)} error={errors.senha}
+            />
 
-          <Pressable onPress={() => {/* TODO: fluxo de recuperação de senha (fora do escopo atual) */}}>
-            <Text style={styles.forgotLink}>Esqueceu a senha?</Text>
-          </Pressable>
+            <Pressable onPress={() => {/* TODO: recuperar senha */}}>
+              <Text style={styles.forgotLink}>Esqueceu a senha?</Text>
+            </Pressable>
 
-          {formError && <Text style={styles.formError}>{formError}</Text>}
+            {formError && <Text style={styles.formError}>{formError}</Text>}
 
-          <AuthButton label="Entrar" onPress={onSubmit} loading={loading} />
+            <AuthButton label="Entrar" onPress={onSubmit} loading={loading} />
 
-          <View style={styles.footer}>
-            <Text style={styles.footerText}>Não tem uma conta? </Text>
-            <Link href="/(auth)/cadastro" style={styles.footerLink}>Cadastre-se</Link>
+            <View style={styles.footer}>
+              <Text style={styles.footerText}>Não tem uma conta? </Text>
+              <Link href="/(auth)/cadastro" style={styles.footerLink}>Cadastre-se</Link>
+            </View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-    </LinearGradient>
+    </ScreenBackground>
   );
 }
 
 const styles = StyleSheet.create({
   flex: { flex: 1 },
   scroll: { flexGrow: 1, justifyContent: 'center', paddingHorizontal: 24 },
-  title: { fontSize: 34, fontWeight: '800', color: colors.text, textAlign: 'center', marginBottom: 32, letterSpacing: 2 },
-  forgotLink: { color: colors.accent, fontSize: 13, fontWeight: '600', marginBottom: 24 },
-  formError: { color: colors.error, textAlign: 'center', marginBottom: 12 },
-  footer: { flexDirection: 'row', justifyContent: 'center', marginTop: 20 },
-  footerText: { color: colors.text, fontSize: 13 },
-  footerLink: { color: colors.accent, fontSize: 13, fontWeight: '700' },
+  card: {
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.15)',
+    paddingHorizontal: 24,
+    paddingVertical: 32,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  title: {
+    fontSize: typography.fontSize['6xl'],
+    fontFamily: typography.fontFamily.brand,
+    color: colors.text,
+    textAlign: 'center',
+    marginBottom: 32,
+    letterSpacing: 2,
+  },
+  forgotLink: {
+    color: colors.accent,
+    fontSize: typography.fontSize.lg,
+    fontFamily: typography.fontFamily.regular,
+    marginBottom: 24,
+    textAlign: 'left',
+  },
+  formError: {
+    color: colors.error,
+    textAlign: 'center',
+    marginBottom: 12,
+    fontFamily: typography.fontFamily.regular,
+  },
+  footer: { flexDirection: 'row', justifyContent: 'center', marginTop: 24 },
+  footerText: {
+    color: colors.text,
+    fontSize: typography.fontSize.lg,
+    fontFamily: typography.fontFamily.regular,
+  },
+  footerLink: {
+    color: colors.accent,
+    fontSize: typography.fontSize.lg,
+    fontFamily: typography.fontFamily.semiBold,
+  },
 });

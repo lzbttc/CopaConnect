@@ -13,4 +13,6 @@ export const colors = {
   error: '#FF6B6B',
   live: '#FF4D4D',
   online: '#3DDC84',
+  bubbleFriendBg: '#FFFFFF',
+  bubbleFriendText: '#1A1A1A',
 };
